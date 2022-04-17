@@ -6,4 +6,5 @@ urlpatterns = [
 
     # My URl
     path('account/', include('accounts.urls')),
+    path('', include('blog.urls')),
 ]

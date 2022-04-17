@@ -7,6 +7,9 @@ from django.contrib.auth.decorators import login_required
 
 
 def login_user(request):
+    if request.user.is_authenticated:
+        return redirect('blog:article_list')
+
     # todo: create decorator only not login
     # todo: redirect user in profile
 
@@ -28,6 +31,9 @@ def login_user(request):
 
 
 def register_user(request):
+    if request.user.is_authenticated:
+        return redirect('blog:article_list')
+
     if request.method == 'POST':
         form = RegisterUserForm(request.POST)
         if form.is_valid():
