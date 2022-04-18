@@ -1,10 +1,16 @@
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import ListView,DetailView
+from blog.models import Article
 
 
-# class ArticleList(ListView):
-#     template_name = 'blog/article_list.html'
+# todo: 1.ListArticle
+# todo: 2.DetailArticle
 
-def test(request):
-    request.user.is_authenticated
-    return render(request,'blog/article_list.html')
+
+class ArticleListView(ListView):
+    model = Article
+    paginate_by = 9
+
+
+class ArticleDetailView(DetailView):
+    model = Article
