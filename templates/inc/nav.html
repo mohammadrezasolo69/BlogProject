@@ -5,7 +5,7 @@
     <div class="container px-4 px-lg-5">
 
         {% if  request.user.is_authenticated %}
-            <a class="navbar-brand" href="{% url 'accounts:profile' %}"
+            <a class="navbar-brand" href="{% url 'accounts:profile' request.user.id%}"
                style="color:mediumspringgreen;font-family: tanha">{{ request.user.username }}</a>
             <a class="navbar-brand" href="{% url 'accounts:logout' %}"
                style="color:mediumspringgreen;font-family: tanha">/ خروج </a>

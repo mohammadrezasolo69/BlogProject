@@ -1,5 +1,78 @@
 {% extends 'base.html' %}
 
 {% block main %}
-<h1>hello world !!</h1>
+    <div style="margin-top: 100px">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+
+                <a class="navbar-brand" href="{% url 'blog:create_article' %}">اضافه کردن مقاله</a>
+
+            </div>
+
+        </nav>
+    </div>
+
+
+
+
+    <main id="recent-posts" class="container main home last-articles">
+
+
+        {% for article in articles %}
+            <article class="article">
+                <ul class="post-categories">
+                    <li><a href="{{ article.category.get_absolute_url }}" rel="category tag">{{ article.category }}</a>
+                    </li>
+                </ul>
+
+                <header class="entry-header">
+                    <figure class="thumbnail">
+                        <a href="{{ article.get_absolute_url }}" class="">
+                            <img src="{{ article.img.url }}"
+                                 class="attachment-medium-wide size-medium-wide wp-post-image"
+                                 alt="{{ article.title }}" loading="lazy"
+                                 width="500" height="320" style="width: 500px;height: 300px">
+                            <noscript><img width="500" height="320"
+                                           src="{{ article.img.url }}"
+                                           class="attachment-medium-wide size-medium-wide wp-post-image"
+                                           alt="{{ article.title }}"
+                                           loading="lazy"></noscript>
+                        </a>
+                    </figure>
+
+
+                    <h2>
+                        <a href="{{ article.get_absolute_url }}"
+                           style="font-family: tanha;font-size:19px !important;">{{ article.title }}</a>
+                    </h2>
+
+                </header>
+                <div class="entry-content">
+                    <div class="excerpt " style="font-family: tanha;">
+                        {{ article.description|safe|truncatewords:40 }}
+                    </div>
+                </div>
+
+                <div href="{{ article.get_absolute_url }}" class="post-info">
+                    <div href="" class="study-time">
+                        <i class="lni lni-alarm-clock"></i>
+                        <span>
+                        زمان مطالعه : {{ article.time_read }}
+                    </span>
+                    </div>
+                    <div href="#!" class="comments">
+                        <span> بدون گفتگو </span>
+                    </div>
+                </div>
+            </article>
+        {% endfor %}
+    </main>
 {% endblock %}
+
+{#<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"#}
+{#        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"#}
+{#        crossorigin="anonymous"></script>#}
+{##}
+{##}
+{#</body>#}
+{#</html>#}

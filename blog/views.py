@@ -1,10 +1,8 @@
-from django.shortcuts import render, Http404
-from django.views.generic import ListView, DetailView, TemplateView
+from django.shortcuts import render, Http404, redirect
+from django.views.generic import ListView, DetailView, TemplateView, CreateView, UpdateView, DeleteView
 from blog.models import Article, Category
-
-
-# todo: 1.ListArticle
-# todo: 2.DetailArticle
+from blog.forms import CreateArticleForm
+from django.urls import reverse
 
 
 class HomePage(ListView):
@@ -12,10 +10,44 @@ class HomePage(ListView):
     paginate_by = 12
     template_name = 'blog/home_page.html'
 
+    def get_queryset(self):
+        return Article.objects.get_queryset().filter(active=True, category__active=True)
+
 
 class ArticleDetailView(DetailView):
     model = Article
     template_name = 'blog/article_detail.html'
+
+
+class CreateArticleView(CreateView):
+    form_class = CreateArticleForm
+    template_name = 'blog/create_article.html'
+
+    def form_valid(self, form):
+        article = form.save(commit=False)
+        article.author = self.request.user
+        form.save(commit=True)
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('accounts:profile')
+
+
+class UpdateArticleView(UpdateView):
+    model = Article
+    fields = ('title', 'img', 'description', 'time_read', 'category')
+    template_name = 'blog/create_article.html'
+
+    def get_success_url(self):
+        return reverse('accounts:profile')
+
+
+class DeleteArticleView(DeleteView):
+    model = Article
+    template_name = 'blog/article_confirm_delete.html'
+
+    def get_success_url(self):
+        return reverse('accounts:profile')
 
 
 class ShowCategoryPartialView(TemplateView):

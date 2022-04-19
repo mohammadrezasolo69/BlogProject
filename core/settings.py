@@ -16,6 +16,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'ckeditor',
     'django_render_partial',
+    'crispy_forms',
 
     # my apps
     'accounts.apps.AccountsConfig',
@@ -118,3 +119,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Accounts setting
 AUTH_USER_MODEL = 'accounts.User'
 LOGIN_URL = 'accounts:login'
+LOGIN_REDIRECT_URL = 'accounts:profile'
+

@@ -1,9 +1,12 @@
-from django.shortcuts import render, redirect, HttpResponse
+from django.shortcuts import render, redirect, Http404
 from accounts.forms import LoginUserForm, RegisterUserForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
+from django.views.generic import View
+
+from blog.models import Article
 
 
 def login_user(request):
@@ -21,7 +24,7 @@ def login_user(request):
             if user is not None:
                 login(request, user)
                 messages.success(request, f"{request.user.username},Login Successfully")
-                return redirect('accounts:profile')
+                return redirect('accounts:profile',request.user.id)
             else:
                 messages.error(request, 'phone or password is wrong', 'warning')
     else:
@@ -62,3 +65,13 @@ def logout_user(request):
 @login_required
 def profile(request):
     return render(request, 'accounts/profile.html')
+
+
+class Profile(View):
+
+    def get(self, request, *args, **kwargs):
+        articles = Article.objects.get_queryset().filter(author_id=self.kwargs['pk'], active=True, category__active=True)
+        if articles is None:
+            raise Http404
+
+        return render(request, 'accounts/profile.html', context={'articles':articles})
