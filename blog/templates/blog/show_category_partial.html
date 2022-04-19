@@ -1,0 +1,4 @@
+{% for cat in category %}
+    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{{ cat.get_absolute_url }}"
+                                        style="font-family: tanha;font-size:19px">{{ cat.title }} </a></li>
+{% endfor %}

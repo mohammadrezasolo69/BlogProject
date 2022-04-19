@@ -8,7 +8,7 @@ from django.db.models.signals import pre_save
 
 class Category(models.Model):
     title = models.CharField(max_length=200)
-    slug = models.SlugField(unique=True, null=True)
+    slug = models.SlugField(unique=True, null=True,max_length=300)
     description = RichTextField(blank=True, null=True)
     active = models.BooleanField(default=False, verbose_name='active: Y/N')
 
@@ -20,10 +20,14 @@ class Category(models.Model):
     def __str__(self):
         return self.title
 
+    def get_absolute_url(self):
+        return reverse('blog:category_list', args=[self.slug])
+
+
 
 class Article(models.Model):
     title = models.CharField(max_length=200)
-    slug = models.SlugField(unique=True, null=True, blank=True)
+    slug = models.SlugField(unique=True, null=True, blank=True,max_length=300)
     img = models.ImageField(upload_to='img/')
     description = RichTextField()
     time_read = models.PositiveIntegerField()

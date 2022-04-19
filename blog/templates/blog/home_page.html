@@ -29,9 +29,9 @@ It Hamrah
 
     <main id="recent-posts" class="container main home last-articles">
         {% for article in object_list %}
-            <article class="article">
+            <article class="article"    >
                 <ul class="post-categories">
-                    <li><a href="#" rel="category tag" >{{ article.category }}</a></li>
+                    <li><a href="{{ article.category.get_absolute_url }}" rel="category tag" >{{ article.category }}</a></li>
                 </ul>
 
                 <header class="entry-header">
@@ -40,7 +40,7 @@ It Hamrah
                             <img src="{{ article.img.url }}"
                                  class="attachment-medium-wide size-medium-wide wp-post-image"
                                  alt="{{ article.title }}" loading="lazy"
-                                 width="500" height="320">
+                                 width="500" height="320" style="width: 500px;height: 300px">
                             <noscript><img width="500" height="320"
                                            src="{{ article.img.url }}"
                                            class="attachment-medium-wide size-medium-wide wp-post-image"
