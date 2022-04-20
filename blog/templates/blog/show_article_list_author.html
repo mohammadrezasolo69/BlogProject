@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+
+{% block main %}
+
+    <header class="masthead" style="background-color:#2d8f6f">
+        <div class="container position-relative px-4 px-lg-5">
+            <div class="row gx-4 gx-lg-5 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-7">
+                    <div class="site-heading">
+                        <h1 style="font-family: tanha">{{ user.author.username }}</h1><br>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+
+    <main id="recent-posts" class="container main home last-articles">
+        {% for article in object_list %}
+            <article class="article"    >
+                <ul class="post-categories">
+                    <li><a href="{{ article.category.get_absolute_url }}" rel="category tag" >{{ article.category }}</a></li>
+                </ul>
+
+                <header class="entry-header">
+                    <figure class="thumbnail">
+                        <a href="{{ article.get_absolute_url }}" class="">
+                            <img src="{{ article.img.url }}"
+                                 class="attachment-medium-wide size-medium-wide wp-post-image"
+                                 alt="{{ article.title }}" loading="lazy"
+                                 width="500" height="320" style="width: 500px;height: 300px">
+                            <noscript><img width="500" height="320"
+                                           src="{{ article.img.url }}"
+                                           class="attachment-medium-wide size-medium-wide wp-post-image"
+                                           alt="{{ article.title }}"
+                                           loading="lazy"></noscript>
+                        </a>
+                    </figure>
+
+
+                    <h2>
+                        <a href="{{ article.get_absolute_url }}" style="font-family: tanha;font-size:19px !important;" >{{ article.title }}</a>
+                    </h2>
+
+                </header>
+                <div class="entry-content">
+                    <div class="excerpt " style="font-family: tanha;">
+                        {{ article.description|safe|truncatewords:40 }}
+                    </div>
+                </div>
+
+                <div href="{{ article.get_absolute_url }}" class="post-info">
+                    <div href="" class="study-time">
+                        <i class="lni lni-alarm-clock"></i>
+                        <span>
+                        زمان مطالعه : {{ article.time_read }}
+                    </span>
+                    </div>
+                    <div href="#!" class="comments">
+                        <span> بدون گفتگو </span>
+                    </div>
+                </div>
+            </article>
+        {% endfor %}
+    </main>
+
+
+
+
+
+{% endblock %}

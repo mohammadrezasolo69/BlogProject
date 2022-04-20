@@ -11,6 +11,7 @@ class HomePage(ListView):
     template_name = 'blog/home_page.html'
 
     def get_queryset(self):
+
         return Article.objects.get_queryset().filter(active=True, category__active=True)
 
 
@@ -39,7 +40,7 @@ class UpdateArticleView(UpdateView):
     template_name = 'blog/create_article.html'
 
     def get_success_url(self):
-        return reverse('accounts:profile')
+        return reverse('blog:home')
 
 
 class DeleteArticleView(DeleteView):
@@ -47,7 +48,7 @@ class DeleteArticleView(DeleteView):
     template_name = 'blog/article_confirm_delete.html'
 
     def get_success_url(self):
-        return reverse('accounts:profile')
+        return reverse('blog:home')
 
 
 class ShowCategoryPartialView(TemplateView):
@@ -74,5 +75,25 @@ class CategoryList(ListView):
         category_list = category.articles.all()
         context['category'] = category
         context['category_list'] = category_list
+
+        return context
+
+
+class ShowArticleListAuthor(ListView):
+    model = Article
+    template_name = 'blog/show_article_list_author.html'
+
+    def get_queryset(self):
+        user = self.kwargs['user']
+        queryset = Article.objects.get_queryset().filter(active=True, category__active=True,
+                                                         author__username=self.kwargs['user'],
+                                                         author_id=self.kwargs['pk'])
+        if queryset is None:
+            raise Http404
+        return queryset
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data()
+        context['user'] = Article.objects.get_queryset().filter(author_id=self.kwargs['pk']).first()
 
         return context
